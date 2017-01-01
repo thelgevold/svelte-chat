@@ -2,10 +2,9 @@
 
 {{#if !loggedIn}}
   <div class="form-group">
-    <label>Login</label>
     <input ref:user class="form-control" placeholder="Name" id="userName">
   </div>
-  <button type="button" on:click="login()" class="btn btn-primary pull-right">Login</button>
+  <button type="button" on:click="login()" class="btn btn-primary pull-right">Join</button>
 {{else}}
   <ul class="list-group">
     {{#each messages as msg}}

@@ -233,12 +233,6 @@ function renderIfBlock_0 ( root, component ) {
 	var div = createElement( 'div' );
 	div.className = "form-group";
 	
-	var label = createElement( 'label' );
-	
-	appendNode( label, div );
-	appendNode( createText( "Login" ), label );
-	appendNode( createText( "\n    " ), div );
-	
 	var input = createElement( 'input' );
 	component.refs.user = input;
 	input.className = "form-control";
@@ -246,7 +240,7 @@ function renderIfBlock_0 ( root, component ) {
 	input.id = "userName";
 	
 	appendNode( input, div );
-	var text2 = createText( "\n  " );
+	var text = createText( "\n  " );
 	
 	var button = createElement( 'button' );
 	button.type = "button";
@@ -259,12 +253,12 @@ function renderIfBlock_0 ( root, component ) {
 	
 	button.className = "btn btn-primary pull-right";
 	
-	appendNode( createText( "Login" ), button );
+	appendNode( createText( "Join" ), button );
 
 	return {
 		mount: function ( target, anchor ) {
 			insertNode( div, target, anchor );
-			insertNode( text2, target, anchor );
+			insertNode( text, target, anchor );
 			insertNode( button, target, anchor );
 		},
 		
@@ -276,7 +270,7 @@ function renderIfBlock_0 ( root, component ) {
 			
 			if ( detach ) {
 				detachNode( div );
-				detachNode( text2 );
+				detachNode( text );
 				detachNode( button );
 			}
 		},
