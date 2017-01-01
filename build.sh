@@ -1,0 +1,1 @@
+svelte compile -i src/Chat.html -o src/chat.js

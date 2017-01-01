@@ -1,0 +1,68 @@
+<h3>Svelte Chat</h3>
+
+{{#if !loggedIn}}
+  <div class="form-group">
+    <label>Login</label>
+    <input ref:user class="form-control" placeholder="Name" id="userName">
+  </div>
+  <button type="button" on:click="login()" class="btn btn-primary pull-right">Login</button>
+{{else}}
+  <ul class="list-group">
+    {{#each messages as msg}}
+      <li class="list-group-item">
+        <div><strong>{{msg.from}}</strong><span class="time">{{msg.time}}</span></div>
+        <div>{{msg.content}}</div>
+      </li>
+    {{/each}}
+  </ul>
+
+  <div class="form-group">
+    <input ref:msg class="form-control" placeholder="Message" id="msg">
+  </div>
+  <button type="button" on:click="sendMessage()" class="btn btn-primary pull-right">Send Message</button>
+{{/if}}
+
+<script>
+  let socket = io('http://localhost:5000');
+  let user = '';
+  export default {
+    onrender () {
+      socket.on('message', (data) => {
+        let messages = this.get('messages');
+        let newMessages = [...messages, data.text];
+        console.log(newMessages);
+        this.set({messages: newMessages});
+      });  
+    },
+
+    onteardown () {
+      socket.disconnect();
+    },
+
+    data () {
+      return {
+        messages: [],
+        loggedIn: false
+      };
+    },
+    
+    methods: {
+      sendMessage ( ) {
+        let newMessage = this.refs['msg'].value;
+        
+        if(newMessage) {
+          socket.emit('add-message', {content: newMessage, from: user, time: new Date().toLocaleTimeString()});
+          this.refs['msg'].value = '';
+        }
+      },
+
+      login() {
+        user = this.refs['user'].value;
+        
+        if(user) {
+          this.set({loggedIn: true});
+        }
+      }
+    }
+  };
+</script>
